@@ -1,5 +1,8 @@
 package kNN;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /***
  * LABELED VECTOR: A helper object for kNN Algorithm.
  * 
@@ -9,7 +12,7 @@ package kNN;
 public class IrisVector {
 
 	private double sepLength, sepWidth, petLength, petWidth;
-	private double[] values;
+	List<Double> values = new ArrayList<Double>();
 	protected String iClass;
 	protected String classGuess;
 	protected boolean isTest = false;
@@ -21,7 +24,12 @@ public class IrisVector {
 		sepWidth = v1;
 		petLength = v2; 
 		petWidth = v3;
-		double[] values = {v0, v1, v2, v3};
+		
+		values.add(v0);
+		values.add(v1);
+		values.add(v2);
+		values.add(v3);
+		
 		iClass = label;
 	}
 	
@@ -40,7 +48,7 @@ public class IrisVector {
 		
 		//getting (a-b)^2 for each part of the series.
 		for (int i = 0; i < 4; i++){
-			double dist = this.values[i] - other.values[i];
+			double dist = this.values.get(i) - other.values.get(i);
 			sum = sum + Math.pow(dist, 2);
 		}
 		
@@ -55,11 +63,16 @@ public class IrisVector {
 	 * Assign a 'class' to the vector based on it's nearest neighbours.
 	 */
 	protected void guessClass(String guess){
-		this.classGuess = guess;
+		this.iClass = guess;
 	}
 	
 	public String toString(){
-		return values.toString() + ", " + classGuess;
+		String iris = "";
+		for (double d : values){
+			iris = iris + d + " ";
+		}
+		iris = iris + iClass;
+		return iris;
 	}
 	
 	protected void setTest(){
